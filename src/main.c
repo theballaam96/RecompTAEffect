@@ -2,6 +2,7 @@
 #include "ultra64.h"
 #include "enums.h"
 #include "common_structs.h"
+#include "recompconfig.h"
 
 typedef struct {
     s32 id;
@@ -55,7 +56,9 @@ RECOMP_CALLBACK("dk64_tag_anywhere", recomp_on_tag_anywhere_tag) void taeffect_o
     if (new < 5) {
         sparkle_index = new;
     }
-    playSound(sfxs[sparkle_index], 0x4FFF, 63.0f, 1.0f, 0, 0);
+    if (recomp_get_config_u32("play_sound")) {
+        playSound(sfxs[sparkle_index], 0x4FFF, 63.0f, 1.0f, 0, 0);
+    }
 }
 
 RECOMP_CALLBACK("*", dk64recomp_every_frame) void taeffect_everyframe(void){
@@ -70,23 +73,25 @@ RECOMP_CALLBACK("*", dk64recomp_every_frame) void taeffect_everyframe(void){
         ta_timer = -1;
         return;
     }
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            func_global_asm_8071498C(func_global_asm_80717D4C);
-            func_global_asm_807149B8(1);
-            r = RANDNUM();
-            func_global_asm_80714950(((r >> 0xF) % 10000) % 120 + 80);
-            x = gCurrentPlayer->x_position + (10.0f * func_global_asm_80612794(((ta_timer + (i * 2)) * 512) & 0xFFF));
-            y = gCurrentPlayer->y_position + 10.0f;
-            z = gCurrentPlayer->z_position + (10.0f * func_global_asm_80612790(((ta_timer + (i * 2)) * 512) & 0xFFF));
-            if (sparkle_index == 1) {
-                // Diddy
-                changeActorColor(0xFF, 0x00, 0x00, 0xFF);
-            } else if (sparkle_index == 2) {
-                // Lanky
-                changeActorColor(0x16, 0x99, 0xFF, 0xFF);
+    if (recomp_get_config_u32("show_sparkles")) {
+        for (i = 0; i < 3; i++) {
+            for (j = 0; j < 3; j++) {
+                func_global_asm_8071498C(func_global_asm_80717D4C);
+                func_global_asm_807149B8(1);
+                r = RANDNUM();
+                func_global_asm_80714950(((r >> 0xF) % 10000) % 120 + 80);
+                x = gCurrentPlayer->x_position + (10.0f * func_global_asm_80612794(((ta_timer + (i * 2)) * 512) & 0xFFF));
+                y = gCurrentPlayer->y_position + 10.0f;
+                z = gCurrentPlayer->z_position + (10.0f * func_global_asm_80612790(((ta_timer + (i * 2)) * 512) & 0xFFF));
+                if (sparkle_index == 1) {
+                    // Diddy
+                    changeActorColor(0xFF, 0x00, 0x00, 0xFF);
+                } else if (sparkle_index == 2) {
+                    // Lanky
+                    changeActorColor(0x16, 0x99, 0xFF, 0xFF);
+                }
+                drawSpriteAtPosition(ta_sprites[sparkle_index], 0.6f, x, y, z);
             }
-            drawSpriteAtPosition(ta_sprites[sparkle_index], 0.6f, x, y, z);
         }
     }
     ta_timer++;

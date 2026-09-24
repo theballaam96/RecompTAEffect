@@ -1,6 +1,6 @@
 [manifest]
 id = "tag_anywhere_sparkles"
-version = "1.0.0"
+version = "1.0.1"
 display_name = "Tag Anywhere Sparkles"
 description = "Gives a bit of a sparkly animation upon performing Tag Anywhere"
 short_description = "Gives a bit of a sparkly animation upon performing Tag Anywhere"
@@ -8,6 +8,22 @@ authors = [ "Ballaam" ]
 game_id = "dk64"
 minimum_recomp_version = "1.0.0"
 dependencies = ["dk64_tag_anywhere:1.0.3"]
+
+[[manifest.config_options]]
+id = "show_sparkles"
+name = "Show Sparkles"
+description = "Controls whether sparkles show when tagging"
+type = "Enum"
+options = [ "Disabled", "Enabled" ]
+default = "Enabled"
+
+[[manifest.config_options]]
+id = "play_sound"
+name = "Play Sounds"
+description = "Controls whether tagging plays a sound"
+type = "Enum"
+options = [ "Disabled", "Enabled" ]
+default = "Enabled"
 
 [inputs]
 elf_path = "build/mod.elf"
