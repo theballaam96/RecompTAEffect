@@ -1,0 +1,17 @@
+[manifest]
+id = "tag_anywhere_sparkles"
+version = "1.0.0"
+display_name = "Tag Anywhere Sparkles"
+description = "Gives a bit of a sparkly animation upon performing Tag Anywhere"
+short_description = "Gives a bit of a sparkly animation upon performing Tag Anywhere"
+authors = [ "Ballaam" ]
+game_id = "dk64"
+minimum_recomp_version = "1.0.0"
+dependencies = ["dk64_tag_anywhere:1.0.3"]
+
+[inputs]
+elf_path = "build/mod.elf"
+mod_filename = "tag_anywhere_sparkles"
+func_reference_syms_file = "Dk64Syms/dump.toml"
+data_reference_syms_files = [ "Dk64Syms/data_dump.toml" ]
+additional_files = ["thumb.dds"]
